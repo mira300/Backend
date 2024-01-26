@@ -12,6 +12,9 @@ price:{
 },
 date:{
     type:Date
+},
+image:{
+    type:String
 }
 
 })
