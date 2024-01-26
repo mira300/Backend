@@ -1,6 +1,7 @@
 const express=require('express');
 
 const app=express();
+require('./config/connect');
 
 app.listen(3000,()=>{
     console.log("server work")
@@ -9,5 +10,5 @@ app.listen(3000,()=>{
 app.post('/create',(req,res)=>{
 
 
-    
+
 })
