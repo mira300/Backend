@@ -1,25 +1,30 @@
 const express=require('express');
 const router=express.Router();
 const User = require('../models/user');
+const bcrypt=require('bcrypt');
 
-
-router.post('/create',(req,res)=>{
+router.post('/register',async(req,res)=>{
 
     data=req.body;
-    usr=new User(data)
+    usr=new User(data);
+    salt=bcrypt.genSaltSync(10);
+    cryptedPass= await bcrypt.hashSync(data.password, salt);
+    usr.password=cryptedPass;
     usr.save()
     .then(
-        (usercreated)=>{
-            res.status(200).send(usercreated)
+        (saved)=>{
+            res.status(200).send(saved)
         }
     )
     .catch(
         (error)=>{
-            res.status(401).send("user not created")
+            res.status(401).send(error)
         }
     )
+})
+
     
-    });
+    
     
     router.get('/get',async(req,res)=>{
     try{
