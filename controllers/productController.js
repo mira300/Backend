@@ -42,17 +42,18 @@ router.post('/create', upload.any('image'),(req,res)=>{
     
     });
     
-    router.get('/get',async(req,res)=>{
-    try{
-        products=await Product.find();
-        res.status(200).send(products);
-    
-    }
-    catch(error){
-        res.send(error);
-    
-    }
-    });
+    router.get('/get', async (req, res) => {
+        try {
+         
+          const products = await Product.find().sort({ date: -1 });
+      
+          res.status(200).send(products);
+        } catch (error) {
+          console.error(error);
+          res.status(500).json({ error: 'Internal Server Error' });
+        }
+      });
+      
     
     
     router.delete('/delete/:id' ,async(req,res)=>{
@@ -81,7 +82,7 @@ router.post('/create', upload.any('image'),(req,res)=>{
 
     router.get('/get_filtre/:categorie', async (req, res) => {
         try {
-            
+
          categorie = req.params.categorie;
          produitToSearch = await Product.find({ categorie });
       

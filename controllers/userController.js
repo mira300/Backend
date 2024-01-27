@@ -27,7 +27,7 @@ router.post('/register',async(req,res)=>{
 
 router.post('/login', async(req,res)=>{
 data=req.body;
-user= await new User.findOne({email:data.email})
+const user = await User.findOne({ $or: [{ email: data.email }, { Username: data.Username }] });
 
 if (!user)
 {
@@ -37,7 +37,7 @@ if (!user)
     if(!validPass){
         res.status(401).send("Email or Password invalid")
     }else{
-
+        res.status(200).send(" Jawek behi ")
     }
 }
 
