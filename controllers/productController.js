@@ -79,5 +79,22 @@ router.post('/create', upload.any('image'),(req,res)=>{
     }
     })
 
+    router.get('/get_filtre/:categorie', async (req, res) => {
+        try {
+            
+         categorie = req.params.categorie;
+         produitToSearch = await Product.find({ categorie });
+      
+          if (!produitToSearch) {
+            return res.status(404).json({ searchResult: 'No products found for the specified category' });
+          }
+      
+          res.status(200).send(produitToSearch);
+        } catch (error) {
+          console.error(error);
+          res.status(500).json({ error: 'Internal Server Error' });
+        }
+      });
+      
 
 module.exports=router;

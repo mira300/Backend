@@ -2,6 +2,7 @@ const express=require('express');
 const router=express.Router();
 const User = require('../models/user');
 const bcrypt=require('bcrypt');
+const jwt=require('jsonwebtoken');
 
 router.post('/register',async(req,res)=>{
 
@@ -23,6 +24,25 @@ router.post('/register',async(req,res)=>{
     )
 })
 
+
+router.post('/login', async(req,res)=>{
+data=req.body;
+user= await new User.findOne({email:data.email})
+
+if (!user)
+{
+    res.status(404).send("Email Or password invalid")
+}else{
+    validPass=bcrypt.compareSync(data.password, user.password)
+    if(!validPass){
+        res.status(401).send("Email or Password invalid")
+    }else{
+
+    }
+}
+
+})
+
     
     
     
@@ -37,6 +57,8 @@ router.post('/register',async(req,res)=>{
     
     }
     });
+
+   
     
     
     router.delete('/delete/:id' ,async(req,res)=>{
@@ -62,5 +84,6 @@ router.post('/register',async(req,res)=>{
     res.send(error);
     }
     })
+
 
     module.exports=router;
