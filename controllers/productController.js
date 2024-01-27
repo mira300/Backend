@@ -4,10 +4,13 @@ const Product=require('../models/product');
 const multer=require('multer');
 
 filename='';
+
 const mystorage= multer.diskStorage({
-destination:'./uploads',
+destination:'./uploads' ,
 filename:(req,file,redirect)=>{
+
 let date=Date.now();
+
 let fl =date + '.'+file.mimetype.split('/')[1];
 redirect(null,fl);
 filename=fl;
@@ -18,17 +21,18 @@ filename=fl;
 //haja bch tekhdem mebin l'appel mta3 requiste mte3i w  lfunction  
 const upload=multer({storage: mystorage});
 
-router.post('/create',upload.any('image'),(req,res)=>{
+router.post('/create', upload.any('image'),(req,res)=>{
 
     data=req.body;
     p=new Product(data);
     p.image=filename;
     p.save();
-    filename=''
+    filename=""
+
     .then(
-        (productcreated)=>{
-            res.status(200).send(productcreated)
-        }
+        function (productcreated) {
+        res.status(200).send(productcreated);
+    }
     )
     .catch(
         (error)=>{
