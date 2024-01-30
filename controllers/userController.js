@@ -3,8 +3,10 @@ const router=express.Router();
 const User = require('../models/user');
 const bcrypt=require('bcrypt');
 const jwt=require('jsonwebtoken');
+var validation= require('../middleware/userValidation')
 
-router.post('/register',async(req,res)=>{
+
+router.post('/register',validation,async(req,res)=>{
 
     data=req.body;
     usr=new User(data);
